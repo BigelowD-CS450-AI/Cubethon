@@ -27,7 +27,7 @@ public class AIKinematicSteering : IKinematicSteering
         result.velocity.y = 0;
         result.velocity *= maxSpeed;
 
-        result.rotation = NewOrientation(character.orientation, result.velocity);
+        result.rotation = NewOrientation(character.transform.eulerAngles.y, result.velocity);
 
         return result;
     }

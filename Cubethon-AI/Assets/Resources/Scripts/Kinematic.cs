@@ -9,6 +9,7 @@ public class Kinematic : MonoBehaviour
     public KinematicMovementType movementType = KinematicMovementType.seeker;
     public IKinematicSteering kinematicSteering;
     public Kinematic target;
+    public Rigidbody rb;
 
     public void Start()
     {
@@ -16,6 +17,7 @@ public class Kinematic : MonoBehaviour
             kinematicSteering = new AIKinematicSteering(movementType,this, target);
         else if (movementType == KinematicMovementType.player)
             kinematicSteering = new PlayerKinematicSteering(transform);
+        rb = gameObject.GetComponent<Rigidbody>();
     }
 
     public void FixedUpdate()
@@ -25,8 +27,9 @@ public class Kinematic : MonoBehaviour
 
     public void UpdatePosition(KinematicSteeringOutput steeringOutput, float time)
     {
-        transform.position += steeringOutput.velocity * Time.deltaTime;
-        transform.eulerAngles = new Vector3(0.0f, steeringOutput.rotation,0.0f);
+
+        rb.MovePosition(transform.position + transform.forward * steeringOutput.velocity.magnitude * Time.deltaTime);
+        transform.eulerAngles = new Vector3(0.0f, steeringOutput.rotation, 0.0f);
 
         //velocity += steeringOutput.linear * Time.deltaTime;
         //rotation += steeringOutput.angular * Time.deltaTime;
