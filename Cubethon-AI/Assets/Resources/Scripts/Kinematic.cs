@@ -26,7 +26,7 @@ public class Kinematic : MonoBehaviour
     public void UpdatePosition(KinematicSteeringOutput steeringOutput, float time)
     {
         transform.position += steeringOutput.velocity * Time.deltaTime;
-        transform.eulerAngles = new Vector3(0.0f, steeringOutput.rotation * Time.deltaTime,0.0f);
+        transform.eulerAngles = new Vector3(0.0f, steeringOutput.rotation,0.0f);
 
         //velocity += steeringOutput.linear * Time.deltaTime;
         //rotation += steeringOutput.angular * Time.deltaTime;
