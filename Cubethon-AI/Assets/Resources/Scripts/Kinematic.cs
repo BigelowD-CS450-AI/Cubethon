@@ -27,9 +27,12 @@ public class Kinematic : MonoBehaviour
 
     public void UpdatePosition(KinematicSteeringOutput steeringOutput, float time)
     {
-
-        rb.MovePosition(transform.position + transform.forward * steeringOutput.velocity.magnitude * Time.deltaTime);
-        transform.eulerAngles = new Vector3(0.0f, steeringOutput.rotation, 0.0f);
+        rb.MovePosition(rb.position + rb.transform.forward * steeringOutput.velocity.magnitude * Time.deltaTime);
+        Quaternion deltaRotation = Quaternion.Euler(new Vector3(0.0f, steeringOutput.rotation, 0.0f) * Time.deltaTime);
+        rb.MoveRotation(rb.rotation * deltaRotation);
+        if (target == null)
+            Debug.Log("Steer Rot " + steeringOutput.rotation);
+        //transform.eulerAngles = new Vector3(0.0f, steeringOutput.rotation, 0.0f);
 
         //velocity += steeringOutput.linear * Time.deltaTime;
         //rotation += steeringOutput.angular * Time.deltaTime;

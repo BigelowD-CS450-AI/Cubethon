@@ -6,7 +6,7 @@ public class PlayerKinematicSteering : IKinematicSteering
     KinematicMovementType movementType;
 
     const float maxSpeed = 2.0f;
-    const float maxRotationSpeed = 5.0f;
+    const float maxRotationSpeed = 100.0f;
 
     public PlayerKinematicSteering(Transform transform)
     {
@@ -26,16 +26,35 @@ public class PlayerKinematicSteering : IKinematicSteering
         result.velocity *= maxSpeed;
 
         result.rotation = NewOrientation(character.eulerAngles.y, result.velocity);
-        
 
+        if (z == 0)
+            result.velocity = new Vector3(0,0,0);
+
+        Debug.Log("result v " + result.velocity.magnitude);
+        Debug.Log("result r " + result.rotation);
         return result;
     }
 
+    //returns targer angle
+    /*
     float NewOrientation(float current, Vector3 velocity)
     {
         if (velocity.magnitude > 0)
             return Mathf.MoveTowardsAngle(current, 180 * Mathf.Atan2(velocity.x, velocity.z) / Mathf.PI, maxRotationSpeed);
         else
             return current;
+    }*/
+
+    //Returns delta angle
+    float NewOrientation(float current, Vector3 velocity)
+    {
+        if (velocity.magnitude > 0)
+        {
+            if (Mathf.Atan2(velocity.x, velocity.z) > current)
+                return maxRotationSpeed; //Mathf.MoveTowardsAngle(current, 180 * Mathf.Atan2(velocity.x, velocity.z) / Mathf.PI, maxRotationSpeed) - current;
+            else
+        }
+        else
+            return 0;
     }
 }
