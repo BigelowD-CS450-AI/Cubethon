@@ -6,7 +6,7 @@ public class PlayerKinematicSteering : IKinematicSteering
     KinematicMovementType movementType;
 
     const float maxSpeed = 2.0f;
-    const float maxRotationSpeed = 10.0f;
+    const float maxRotationSpeed = 5.0f;
 
     public PlayerKinematicSteering(Transform transform)
     {
@@ -15,12 +15,12 @@ public class PlayerKinematicSteering : IKinematicSteering
 
     public KinematicSteeringOutput GetSteering()
     {
-        float x = Input.GetAxisRaw("Horizontal");
-        float z = Input.GetAxisRaw("Vertical");
+        float x = Input.GetAxis("Horizontal");
+        float z = Input.GetAxis("Vertical");
 
         KinematicSteeringOutput result = new KinematicSteeringOutput();
-
-        result.velocity = character.forward * z;
+        
+        result.velocity = character.forward * z + character.right * x;
         result.velocity.Normalize();
 
         result.velocity *= maxSpeed;
@@ -30,13 +30,14 @@ public class PlayerKinematicSteering : IKinematicSteering
         if (z == 0)
             result.velocity = new Vector3(0,0,0);
 
-        Debug.Log("result v " + result.velocity.magnitude);
-        Debug.Log("result r " + result.rotation);
         return result;
     }
    
     float NewOrientation(float current, Vector3 velocity)
     {
-        return rotDir * maxRotationSpeed;
+        if (velocity.magnitude > 0)
+            return Mathf.MoveTowardsAngle(current, 180 * Mathf.Atan2(velocity.x, velocity.z) / Mathf.PI, maxRotationSpeed);
+        else
+            return current;
     }
 }

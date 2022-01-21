@@ -28,6 +28,6 @@ public class Kinematic : MonoBehaviour
     public void kinematicMove(KinematicSteeringOutput steeringOutput)
     {
         transform.position += steeringOutput.velocity * Time.fixedDeltaTime;
-        transform.eulerAngles = new Vector3(0.0f, steeringOutput.rotation, Time.fixedDeltaTime);
+        transform.eulerAngles = new Vector3(0.0f, steeringOutput.rotation, 0.0f);
     }
 }

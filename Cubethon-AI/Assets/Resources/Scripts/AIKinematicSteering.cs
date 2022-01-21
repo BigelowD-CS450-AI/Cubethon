@@ -35,7 +35,7 @@ public class AIKinematicSteering : IKinematicSteering
     float NewOrientation(float current, Vector3 velocity)
     {
         if (velocity.magnitude > 0)
-            return (180 * Mathf.Atan2(velocity.x, velocity.z) / Mathf.PI);
+            return 180 * Mathf.Atan2(velocity.x, velocity.z) / Mathf.PI;
         else
             return current;
     }
