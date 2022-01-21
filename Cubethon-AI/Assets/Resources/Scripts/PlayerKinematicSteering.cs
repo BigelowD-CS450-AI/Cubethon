@@ -15,12 +15,12 @@ public class PlayerKinematicSteering : IKinematicSteering
 
     public KinematicSteeringOutput GetSteering()
     {
-        float x = Input.GetAxis("Horizontal");
-        float z = Input.GetAxis("Vertical");
+        float x = Input.GetAxisRaw("Horizontal");
+        float z = Input.GetAxisRaw("Vertical");
 
         KinematicSteeringOutput result = new KinematicSteeringOutput();
 
-        result.velocity = character.forward * z + character.right * x;
+        result.velocity = character.forward * z;
         result.velocity.Normalize();
 
         result.velocity *= maxSpeed;
@@ -37,9 +37,6 @@ public class PlayerKinematicSteering : IKinematicSteering
    
     float NewOrientation(float current, Vector3 velocity)
     {
-        if (velocity.magnitude > 0)
-            return Mathf.MoveTowardsAngle(current, 180 * Mathf.Atan2(velocity.x, velocity.z) / Mathf.PI, maxRotationSpeed);
-        else
-            return current;
+        return rotDir * maxRotationSpeed;
     }
 }
